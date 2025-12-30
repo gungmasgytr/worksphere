@@ -6,5 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobseekerProfile extends Model
 {
-    //
+    protected $fillable = [
+        'user_id',
+        'full_name',
+        'bio',
+        'phone',
+        'location',
+        'skills',
+        'experience',
+        'resume_path',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'jobseeker_id');
+    }
 }
