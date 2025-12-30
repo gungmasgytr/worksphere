@@ -109,15 +109,15 @@ export default function Register({ auth }) {
                             </div>
                             <div>
                                 <p className='py-4 text-[#999999] text-left font-light'>
-                                    By joining, you agree to the WorkSphere 
+                                    By joining, you agree to the WorkSphere&ensp; 
                                     <span className='text-blue-600 hover:text-blue-500 cursor-pointer hover:underline font-bold' onClick={() => window.location.href = '/'}>
-                                        &ensp;Terms of Service&ensp;
+                                        Terms of Service
                                     </span>  
-                                    and to occasionally receive emails from us. Please read our 
+                                    &ensp;and to occasionally receive emails from us. Please read our&ensp; 
                                     <span className='text-blue-600 hover:text-blue-500 cursor-pointer font-bold hover:underline' onClick={() => window.location.href = '/'}>
-                                        &ensp;Privacy Policy&ensp;
+                                        Privacy Policy
                                     </span> 
-                            to learn how we use your personal data.
+                                    &ensp;to learn how we use your personal data.
                                 </p>
                             </div>
                         </div>
