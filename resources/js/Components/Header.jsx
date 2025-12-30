@@ -3,12 +3,23 @@ import { Link } from '@inertiajs/react'
 export default function Header({ user }) {
     return (
         <header className="bg-white shadow-sm border-b">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1450px] mx-auto sm:px-3 lg:px-4">
                 <div className="flex justify-between items-center h-16">
-                    <Link href="/" className="text-xl font-bold text-blue-600">
-                        WorkSphere
+                    <Link href="/" className="text-3xl font-bold text-[#404145]">
+                        WorkSphere<span className='text-[#2196F3]'>.</span>
                     </Link>
                     
+                    <div className='items-center justify-center space-x-24 font-medium text-lg'>
+                        <Link href="/" className="text-gray-700 hover:text-blue-600">
+                            Home
+                        </Link>
+                        <Link href="#vacancy" className="text-gray-700 hover:text-blue-600">
+                            Vacancy
+                        </Link>
+                        <Link href="#faq" method="post" className="text-gray-700 hover:text-blue-600">
+                            FAQ
+                        </Link>
+                    </div>
                     <nav className="flex items-center space-x-4">
                         {user ? (
                             <>
