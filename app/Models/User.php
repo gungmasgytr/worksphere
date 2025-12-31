@@ -48,6 +48,13 @@ class User extends Authenticatable
         ];
     }
 
+    protected $appends = ['is_recruiter'];
+
+    public function getIsRecruiterAttribute()
+    {
+        return $this->hasRole('recruiter');
+    }
+
     public function recruiterProfile()
     {
         return $this->hasOne(RecruiterProfile::class);
@@ -60,11 +67,11 @@ class User extends Authenticatable
 
     public function isRecruiter()
     {
-        return $this->role === 'perusahaan';
+        return $this->hasRole('recruiter');
     }
 
     public function isJobseeker()
     {
-        return $this->role === 'user';
+        return $this->hasRole('jobseeker');
     }
 }

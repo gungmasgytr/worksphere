@@ -6,7 +6,8 @@ export default function Login({ auth }) {
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
-        remember: false
+        remember: false,
+        selectedRole: null
     })
 
     const submit = (e) => {
@@ -16,6 +17,7 @@ export default function Login({ auth }) {
 
     const selectRole = (role) => {
         setSelectedRole(role)
+        setData('selectedRole', role)
     }
 
     const backToRoleSelection = () => {
@@ -23,7 +25,8 @@ export default function Login({ auth }) {
         setData({
             email: '',
             password: '',
-            remember: false
+            remember: false,
+            selectedRole: null
         })
     }
 

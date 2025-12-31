@@ -16,6 +16,7 @@ export default function TrendUp({
         shadow-md
         hover:scale-[1.02]
         transition-all duration-200
+        space-x-4
       "
     >
       {/* Text */}

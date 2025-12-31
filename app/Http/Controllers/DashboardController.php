@@ -20,6 +20,9 @@ class DashboardController extends Controller
         $profile = $user->recruiterProfile;
         
         return Inertia::render('Dashboard/Recruiter', [
+            'auth' => [
+                'user' => $user
+            ],
             'user' => $user,
             'profile' => $profile
         ]);
@@ -33,6 +36,9 @@ class DashboardController extends Controller
         $profile = $user->jobseekerProfile;
         
         return Inertia::render('Dashboard/Jobseeker', [
+            'auth' => [
+                'user' => $user
+            ],
             'user' => $user,
             'profile' => $profile
         ]);
