@@ -36,7 +36,7 @@ export default function Login({ auth }) {
                             <h2 className="mt-16 ml-16 text-left text-3xl font-extrabold text-white">
                                 Join us now!
                             </h2>
-                            <img src="/assets/images/auth/women-with-tab.png" alt="" width={1000} height={1000}/>
+                            <img src="/assets/images/auth/women-with-tab.png" alt=""/>
                         </div>
                         <div className="w-full pl-8 pb-4">
                             <h2 className="mt-10 text-left text-3xl font-extrabold text-gray-900">
@@ -86,11 +86,11 @@ export default function Login({ auth }) {
         <div className="min-h-screen flex items-center justify-center bg-white">
             <div className="min-h-[120vh] flex items-center justify-center bg-white">
                     <div className='max-w-[1100px] w-full flex flex-row border border-gray-300 rounded-[20px] shadow-md'>
-                        <div className="w-full bg-[url('/assets/images/bg-auth.png')] bg-no-repeat bg-cover rounded-l-[20px]">
+                        <div className="w-full bg-[url('/assets/images/auth/bg-auth.png')] bg-no-repeat bg-cover rounded-l-[20px]">
                             <h2 className="mt-16 ml-16 text-left text-3xl font-extrabold text-white">
                                 Join us now!
                             </h2>
-                            <img src="/assets/images/women-with-tab.png" alt="" width={1000} height={1000}/>
+                            <img src="/assets/images/auth/women-with-tab.png" alt="" width={1000} height={1000}/>
                         </div>
                     <div className="max-w-[1100px] w-full space-y-8 px-5">
                         <h2 className="mt-10 text-left text-3xl font-extrabold text-gray-900">

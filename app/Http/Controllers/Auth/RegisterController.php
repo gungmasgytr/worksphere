@@ -63,9 +63,9 @@ class RegisterController extends Controller
 
         // Assign role using Spatie
         if ($data['role'] === 'perusahaan') {
-            $user->assignRole('recruiter');
+            $user->assignRole('perusahaan');
         } else {
-            $user->assignRole('jobseeker');
+            $user->assignRole('user');
         }
 
         return $user;

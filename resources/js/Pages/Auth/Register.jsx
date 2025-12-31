@@ -34,11 +34,14 @@ export default function Register({ auth }) {
                             Sign in
                         </span>
                     </p>
-                    <div className='space-y-4 pr-8'>
+                    <form onSubmit={submit} className='space-y-4 pr-8'>
                         <div className='mt-6'>
-                            <label className='text-lg text-gray-900 font-medium'>Name</label>
+                            <label htmlFor='name' className='text-lg text-gray-900 font-medium'>Name</label>
                             <input
+                                id="name"
+                                name="name"
                                 type="text"
+                                autoComplete="name"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
                                 placeholder="Full Name"
@@ -47,9 +50,12 @@ export default function Register({ auth }) {
                             {errors.name && <div className="text-red-500 text-sm mt-1">{errors.name}</div>}
                         </div>
                         <div>
-                            <label className='text-lg text-gray-900 font-medium'>Email</label>
+                            <label htmlFor='email' className='text-lg text-gray-900 font-medium'>Email</label>
                             <input
+                                id="email"
+                                name="email"
                                 type="email"
+                                autoComplete="email"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
                                 placeholder="Email address"
@@ -58,9 +64,11 @@ export default function Register({ auth }) {
                             {errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
                         </div>
                         <div>
-                            <label className='text-lg text-gray-900 font-medium'>Role</label>
+                            <label htmlFor='role' className='text-lg text-gray-900 font-medium'>Role</label>
                             <div>
                                 <select
+                                    id="role"
+                                    name="role"
                                     value={data.role}
                                     onChange={(e) => setData('role', e.target.value)}
                                     className="relative block w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -72,10 +80,13 @@ export default function Register({ auth }) {
                             </div>
                         </div>
                         <div>
-                            <label className='text-lg text-gray-900 font-medium'>Password</label>
+                            <label htmlFor='password' className='text-lg text-gray-900 font-medium'>Password</label>
                             <div>
                                 <input
+                                    id="password"
+                                    name="password"
                                     type="password"
+                                    autoComplete="new-password"
                                     value={data.password}
                                     onChange={(e) => setData('password', e.target.value)}
                                     placeholder="Password"
@@ -85,10 +96,13 @@ export default function Register({ auth }) {
                             </div>
                         </div>
                         <div>
-                            <label className='text-lg text-gray-900 font-medium'>Confirm Password</label>
+                            <label htmlFor='password_confirmation' className='text-lg text-gray-900 font-medium'>Confirm Password</label>
                             <div>
                                 <input
+                                    id="password_confirmation"
+                                    name="password_confirmation"
                                     type="password"
+                                    autoComplete="new-password"
                                     value={data.password_confirmation}
                                     onChange={(e) => setData('password_confirmation', e.target.value)}
                                     placeholder="Confirm Password"
@@ -118,7 +132,7 @@ export default function Register({ auth }) {
                                 &ensp;to learn how we use your personal data.
                             </p>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -21,11 +21,11 @@ class CheckRole
 
         $user = auth()->user();
         
-        if ($role === 'recruiter' && !$user->isRecruiter()) {
+        if ($role === 'perusahaan' && !$user->isRecruiter()) {
             abort(403, 'Access denied. Recruiter role required.');
         }
         
-        if ($role === 'jobseeker' && !$user->isJobseeker()) {
+        if ($role === 'user' && !$user->isJobseeker()) {
             abort(403, 'Access denied. Jobseeker role required.');
         }
 

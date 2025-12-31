@@ -3,10 +3,8 @@ import Layout from '../Components/Layout'
 export default function Welcome({ auth }) {
     return (
         <Layout user={auth.user}>
-            <div className="min-h-screen flex items-center justify-center">
-                <h1 className="text-4xl font-bold text-blue-600">
-                    Welcome React + Inertia + Tailwind
-                </h1>
+            <div className="min-h-screen flex flex-row items-center justify-center bg-[#2196F3] bg-[url('/assets/images/home/bg-image.png')] bg-no-repeat bg-cover">
+                
             </div>
         </Layout>
     )
