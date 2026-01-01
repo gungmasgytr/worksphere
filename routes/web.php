@@ -63,5 +63,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/recruiter/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
         Route::delete('/recruiter/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
         Route::get('/recruiter/jobs/{job}/applications', [JobController::class, 'applications'])->name('jobs.applications');
+        Route::put('/recruiter/jobs/{job}/toggle-status', [JobController::class, 'toggleJobStatus'])->name('jobs.toggle-status');
+        Route::put('/recruiter/applications/{application}/status', [JobController::class, 'updateApplicationStatus'])->name('applications.update-status');
+        Route::get('/recruiter/jobseekers/{jobseeker}', [JobController::class, 'viewJobseekerProfile'])->name('jobseekers.profile');
+        Route::post('/recruiter/applications/{application}/contact', [JobController::class, 'contactCandidate'])->name('applications.contact');
     });
 });

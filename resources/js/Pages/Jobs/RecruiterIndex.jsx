@@ -1,5 +1,5 @@
 import Layout from '../../Components/Layout'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 
 export default function RecruiterIndex({ auth, jobs }) {
     const getStatusColor = (status) => {
@@ -21,6 +21,22 @@ export default function RecruiterIndex({ auth, jobs }) {
             month: 'short',
             day: 'numeric'
         })
+    }
+
+    const handleToggleStatus = (jobId) => {
+        if (confirm('Are you sure you want to change this job\'s status?')) {
+            router.put(`/recruiter/jobs/${jobId}/toggle-status`, {}, {
+                preserveScroll: true,
+            })
+        }
+    }
+
+    const handleDelete = (jobId) => {
+        if (confirm('Are you sure you want to permanently delete this job posting? This action cannot be undone.')) {
+            router.delete(`/recruiter/jobs/${jobId}`, {
+                preserveScroll: true,
+            })
+        }
     }
 
     return (
@@ -105,6 +121,16 @@ export default function RecruiterIndex({ auth, jobs }) {
                                                     >
                                                         View Applications ({job.application_count})
                                                     </Link>
+                                                    <button
+                                                        onClick={() => handleToggleStatus(job.id)}
+                                                        className={`px-4 py-2 rounded-md text-sm text-center text-white ${
+                                                            job.status === 'active'
+                                                                ? 'bg-yellow-600 hover:bg-yellow-700'
+                                                                : 'bg-green-600 hover:bg-green-700'
+                                                        }`}
+                                                    >
+                                                        {job.status === 'active' ? 'Deactivate' : 'Activate'}
+                                                    </button>
                                                     <Link
                                                         href={`/recruiter/jobs/${job.id}/edit`}
                                                         className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm text-center"
@@ -112,11 +138,7 @@ export default function RecruiterIndex({ auth, jobs }) {
                                                         Edit Job
                                                     </Link>
                                                     <button
-                                                        onClick={() => {
-                                                            if (confirm('Are you sure you want to delete this job posting?')) {
-                                                                // Handle delete
-                                                            }
-                                                        }}
+                                                        onClick={() => handleDelete(job.id)}
                                                         className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 text-sm"
                                                     >
                                                         Delete

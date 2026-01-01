@@ -17,12 +17,40 @@ class DashboardController extends Controller
         $user = auth()->user();
         $profile = $user->recruiterProfile;
         
+        // Get statistics
+        $activeJobsCount = $profile ? $profile->jobPostings()->where('status', 'active')->count() : 0;
+        $totalApplicationsCount = $profile ? $profile->jobPostings()->with('applications')->get()->sum(fn($job) => $job->applications->count()) : 0;
+        $totalViewsCount = $profile ? $profile->jobPostings()->sum('views') : 0; // Assuming 'views' column exists
+        
+        // Get recent job postings
+        $recentJobs = $profile ? $profile->jobPostings()
+            ->with('category')
+            ->latest()
+            ->take(5)
+            ->get() : collect();
+        
+        // Get recent applications
+        $recentApplications = $profile ? \App\Models\Application::with(['jobPosting', 'jobseeker.user'])
+            ->whereHas('jobPosting', function($q) use ($profile) {
+                $q->where('recruiter_id', $profile->id);
+            })
+            ->latest()
+            ->take(5)
+            ->get() : collect();
+        
         return Inertia::render('Dashboard/Recruiter', [
             'auth' => [
                 'user' => $user
             ],
             'user' => $user,
-            'profile' => $profile
+            'profile' => $profile,
+            'stats' => [
+                'active_jobs' => $activeJobsCount,
+                'applications' => $totalApplicationsCount,
+                'views' => $totalViewsCount,
+            ],
+            'recentJobs' => $recentJobs,
+            'recentApplications' => $recentApplications
         ]);
     }
 

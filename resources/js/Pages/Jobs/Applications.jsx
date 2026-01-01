@@ -1,7 +1,10 @@
 import Layout from '../../Components/Layout'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
+import { useState } from 'react'
 
 export default function Applications({ auth, job, applications }) {
+    const [contactModal, setContactModal] = useState({ open: false, application: null })
+    const [contactForm, setContactForm] = useState({ subject: '', message: '' })
     const getStatusColor = (status) => {
         switch (status) {
             case 'pending':
@@ -26,6 +29,36 @@ export default function Applications({ auth, job, applications }) {
             day: 'numeric',
             hour: '2-digit',
             minute: '2-digit'
+        })
+    }
+
+    const handleStatusChange = (applicationId, newStatus) => {
+        router.put(`/recruiter/applications/${applicationId}/status`, {
+            status: newStatus
+        }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Status updated successfully
+            }
+        })
+    }
+
+    const handleContactCandidate = (application) => {
+        setContactModal({ open: true, application })
+        setContactForm({
+            subject: `Regarding your application for ${job.title}`,
+            message: `Dear ${application.jobseeker.user.name},\n\nThank you for applying for the ${job.title} position at ${auth.user.recruiterProfile?.company_name}.\n\nWe would like to discuss your application further.\n\nBest regards,\n${auth.user.name}\n${auth.user.recruiterProfile?.company_name}`
+        })
+    }
+
+    const submitContactForm = (e) => {
+        e.preventDefault()
+        router.post(`/recruiter/applications/${contactModal.application.id}/contact`, contactForm, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setContactModal({ open: false, application: null })
+                setContactForm({ subject: '', message: '' })
+            }
         })
     }
 
@@ -114,11 +147,8 @@ export default function Applications({ auth, job, applications }) {
 
                                                 <div className="ml-6 flex flex-col gap-2">
                                                     <select
-                                                        defaultValue={application.status}
-                                                        onChange={(e) => {
-                                                            // Handle status change
-                                                            console.log('Change status to:', e.target.value)
-                                                        }}
+                                                        value={application.status}
+                                                        onChange={(e) => handleStatusChange(application.id, e.target.value)}
                                                         className="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
                                                     >
                                                         <option value="pending">Pending</option>
@@ -128,22 +158,16 @@ export default function Applications({ auth, job, applications }) {
                                                         <option value="hired">Hired</option>
                                                     </select>
 
-                                                    <button
-                                                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm"
-                                                        onClick={() => {
-                                                            // Handle view profile
-                                                            console.log('View profile:', application.jobseeker.id)
-                                                        }}
+                                                    <Link
+                                                        href={`/recruiter/jobseekers/${application.jobseeker.id}`}
+                                                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm text-center"
                                                     >
                                                         View Full Profile
-                                                    </button>
+                                                    </Link>
 
                                                     <button
                                                         className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 text-sm"
-                                                        onClick={() => {
-                                                            // Handle contact candidate
-                                                            console.log('Contact candidate:', application.jobseeker.user.email)
-                                                        }}
+                                                        onClick={() => handleContactCandidate(application)}
                                                     >
                                                         Contact Candidate
                                                     </button>
@@ -157,6 +181,60 @@ export default function Applications({ auth, job, applications }) {
                     </div>
                 </div>
             </div>
+
+            {/* Contact Modal */}
+            {contactModal.open && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                    <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                        <div className="mt-3">
+                            <h3 className="text-lg font-medium text-gray-900 mb-4">
+                                Contact {contactModal.application?.jobseeker.user.name}
+                            </h3>
+                            <form onSubmit={submitContactForm}>
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Subject
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={contactForm.subject}
+                                        onChange={(e) => setContactForm({...contactForm, subject: e.target.value})}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Message
+                                    </label>
+                                    <textarea
+                                        value={contactForm.message}
+                                        onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                                        rows={6}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                        required
+                                    />
+                                </div>
+                                <div className="flex justify-end gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setContactModal({ open: false, application: null })}
+                                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    >
+                                        Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
         </Layout>
     )
 }

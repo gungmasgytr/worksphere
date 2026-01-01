@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\JobseekerProfile;
+use Illuminate\Support\Facades\Mail;
 use App\Models\JobPosting;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
+
 
 class JobController extends Controller
 {
@@ -62,7 +65,7 @@ class JobController extends Controller
     public function show(JobPosting $job)
     {
 
-        $job->load(['recruiter', 'category', 'skills']);
+        $job->load(['recruiter', 'category']);
 
         return Inertia::render('Jobs/Show', [
             'auth' => ['user' => auth()->user()],
@@ -272,5 +275,82 @@ class JobController extends Controller
             'auth' => ['user' => $user],
             'applications' => $applications
         ]);
+    }
+
+    public function updateApplicationStatus(Request $request, Application $application)
+    {
+        $this->middleware('role:recruiter');
+
+        // Check if application belongs to current recruiter's job
+        if ($application->jobPosting->recruiter_id !== auth()->user()->recruiterProfile?->id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'status' => 'required|in:pending,reviewed,shortlisted,rejected,hired'
+        ]);
+
+        $application->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('success', 'Application status updated successfully!');
+    }
+
+    public function viewJobseekerProfile(JobseekerProfile $jobseeker)
+    {
+        $this->middleware('role:recruiter');
+
+        $jobseeker->load(['user', 'applications.jobPosting']);
+
+        return Inertia::render('Jobs/JobseekerProfile', [
+            'auth' => ['user' => auth()->user()],
+            'jobseeker' => $jobseeker
+        ]);
+    }
+
+    public function contactCandidate(Request $request, Application $application)
+    {
+        $this->middleware('role:recruiter');
+
+        // Check if application belongs to current recruiter's job
+        if ($application->jobPosting->recruiter_id !== auth()->user()->recruiterProfile?->id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string'
+        ]);
+
+        $recruiter = auth()->user();
+        $jobseeker = $application->jobseeker;
+        $job = $application->jobPosting;
+
+        // Send email to candidate
+        Mail::raw($request->message, function ($mail) use ($jobseeker, $recruiter, $request, $job) {
+            $mail->to($jobseeker->user->email)
+                 ->subject($request->subject)
+                 ->from($recruiter->email, $recruiter->name . ' - ' . $recruiter->recruiterProfile->company_name)
+                 ->replyTo($recruiter->email);
+        });
+
+        return back()->with('success', 'Message sent to candidate successfully!');
+    }
+
+    public function toggleJobStatus(JobPosting $job)
+    {
+        $this->middleware('role:recruiter');
+
+        // Check if job belongs to current recruiter
+        if ($job->recruiter_id !== auth()->user()->recruiterProfile?->id) {
+            abort(403);
+        }
+
+        // Toggle status between active and inactive
+        $newStatus = $job->status === 'active' ? 'inactive' : 'active';
+        $job->update(['status' => $newStatus]);
+
+        return back()->with('success', "Job status updated to {$newStatus}!");
     }
 }

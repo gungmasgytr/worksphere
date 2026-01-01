@@ -22,6 +22,7 @@ class JobPosting extends Model
         'status',
         'deadline',
         'category_id',
+        'views',
     ];
 
     protected $casts = [
