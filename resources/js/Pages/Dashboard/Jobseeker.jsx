@@ -73,7 +73,7 @@ export default function Jobseeker({ auth, user, profile, stats, recentApplicatio
                                             My Applications
                                         </Link>
                                         <Link
-                                            href="/profile/edit"
+                                            href="/profile"
                                             className="w-full bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 inline-block text-center"
                                         >
                                             My Profile
