@@ -19,16 +19,18 @@ class TestUserSeeder extends Seeder
     public function run(): void
     {
         // Create test recruiter
-        $recruiter = User::create([
-            'name' => 'John Recruiter',
+        $recruiter = User::firstOrCreate([
             'email' => 'john.recruiter@worksphere.test',
+        ], [
+            'name' => 'John Recruiter',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
         $recruiter->assignRole('recruiter');
 
-        RecruiterProfile::create([
+        RecruiterProfile::firstOrCreate([
             'user_id' => $recruiter->id,
+        ], [
             'company_name' => 'Tech Solutions Inc.',
             'company_description' => 'Leading technology company specializing in software development.',
             'website' => 'https://techsolutions.com',
@@ -37,16 +39,18 @@ class TestUserSeeder extends Seeder
         ]);
 
         // Create test jobseeker
-        $jobseeker = User::create([
-            'name' => 'Jane Developer',
+        $jobseeker = User::firstOrCreate([
             'email' => 'jane.developer@worksphere.test',
+        ], [
+            'name' => 'Jane Developer',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
         $jobseeker->assignRole('jobseeker');
 
-        JobseekerProfile::create([
+        JobseekerProfile::firstOrCreate([
             'user_id' => $jobseeker->id,
+        ], [
             'full_name' => 'Jane Developer',
             'phone' => '+1-555-0123',
             'location' => 'San Francisco, CA',

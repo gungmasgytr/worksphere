@@ -1,5 +1,5 @@
 import Layout from '../../Components/Layout'
-
+import { Link } from '@inertiajs/react'
 export default function Recruiter({ auth, user, profile }) {
     return (
         <Layout user={auth.user}>
@@ -30,16 +30,13 @@ export default function Recruiter({ auth, user, profile }) {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <div className="bg-gray-50 p-6 rounded-lg">
                                     <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
-                                    <div className="space-y-3">
-                                        <button className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                                    <div className="space-y-3 flex flex-col">
+                                        <Link className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 items-center justify-center flex" href="/recruiter/jobs/create">
                                             Post New Job
-                                        </button>
-                                        <button className="w-full bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">
+                                        </Link>
+                                        <Link href="/recruiter/jobs" className="w-full bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 items-center justify-center flex">
                                             Manage Jobs
-                                        </button>
-                                        <button className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
-                                            View Applications
-                                        </button>
+                                        </Link>
                                     </div>
                                 </div>
 

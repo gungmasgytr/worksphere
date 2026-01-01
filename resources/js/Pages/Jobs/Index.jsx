@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react'
 import { Link, router } from '@inertiajs/react'
 
 export default function Index({ auth, jobs, categories, filters }) {
-    const [searchTerm, setSearchTerm] = useState(filters.search || '')
-    const [selectedCategory, setSelectedCategory] = useState(filters.category || '')
-    const [selectedLocation, setSelectedLocation] = useState(filters.location || '')
-    const [selectedJobType, setSelectedJobType] = useState(filters.job_type || '')
+    const safeFilters = filters || {}
+    const [searchTerm, setSearchTerm] = useState(safeFilters.search || '')
+    const [selectedCategory, setSelectedCategory] = useState(safeFilters.category || '')
+    const [selectedLocation, setSelectedLocation] = useState(safeFilters.location || '')
+    const [selectedJobType, setSelectedJobType] = useState(safeFilters.job_type || '')
 
     const jobTypes = [
         { value: 'full-time', label: 'Full Time' },
@@ -16,15 +17,32 @@ export default function Index({ auth, jobs, categories, filters }) {
     ]
 
     const handleSearch = () => {
-        router.get('/jobs', {
-            search: searchTerm,
-            category: selectedCategory,
-            location: selectedLocation,
-            job_type: selectedJobType
-        }, {
+        const params = {
+            search: searchTerm || '',
+            category: selectedCategory || '',
+            location: selectedLocation || '',
+            job_type: selectedJobType || ''
+        }
+
+        // Remove empty parameters
+        Object.keys(params).forEach(key => {
+            if (params[key] === '') {
+                delete params[key]
+            }
+        })
+
+        router.get('/jobs', params, {
             preserveState: true,
             replace: true
         })
+    }
+
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+        }).format(amount)
     }
 
     const clearFilters = () => {
@@ -156,14 +174,14 @@ export default function Index({ auth, jobs, categories, filters }) {
                                                 {job.recruiter?.company_name || 'Company'} • {job.location}
                                             </p>
                                             <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                                                <span className="capitalize">{job.job_type.replace('-', ' ')}</span>
+                                                <span className="capitalize">{job.job_type ? job.job_type.replace('-', ' ') : 'Not specified'}</span>
                                                 <span>•</span>
-                                                <span>{job.experience_level} level</span>
+                                                <span>{job.experience_level ? job.experience_level + ' level' : 'Level not specified'}</span>
                                                 <span>•</span>
-                                                <span>{job.salary_range}</span>
+                                                <span>{formatCurrency(job.salary_min)} - {formatCurrency(job.salary_max)}</span>
                                             </div>
                                             <p className="text-gray-700 mt-3 line-clamp-2">
-                                                {job.description.substring(0, 200)}...
+                                                {job.description ? job.description.substring(0, 200) + '...' : 'No description available'}
                                             </p>
                                         </div>
                                         <div className="ml-4">
@@ -185,16 +203,18 @@ export default function Index({ auth, jobs, categories, filters }) {
                         <div className="mt-8 flex justify-center">
                             <div className="flex space-x-1">
                                 {jobs.links.map((link, index) => (
-                                    <Link
-                                        key={index}
-                                        href={link.url}
-                                        className={`px-3 py-2 text-sm border rounded-md ${
-                                            link.active
-                                                ? 'bg-blue-600 text-white border-blue-600'
-                                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                                        }`}
-                                        dangerouslySetInnerHTML={{ __html: link.label }}
-                                    />
+                                    link.url && (
+                                        <Link
+                                            key={index}
+                                            href={link.url}
+                                            className={`px-3 py-2 text-sm border rounded-md ${
+                                                link.active
+                                                    ? 'bg-blue-600 text-white border-blue-600'
+                                                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                                            }`}
+                                            dangerouslySetInnerHTML={{ __html: link.label }}
+                                        />
+                                    )
                                 ))}
                             </div>
                         </div>

@@ -20,10 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(TestUserSeeder::class);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $this->call(RecruiterJobSeeder::class);
+        $this->call(JobseekerSeeder::class);
+        $this->call(ApplicationSeeder::class);
     }
 }

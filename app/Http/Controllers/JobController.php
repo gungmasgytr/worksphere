@@ -256,4 +256,26 @@ class JobController extends Controller
             'applications' => $applications
         ]);
     }
+
+    public function jobseekerApplications()
+    {
+        $this->middleware('role:jobseeker');
+
+        $user = auth()->user();
+        $profile = $user->jobseekerProfile;
+
+        if (!$profile) {
+            abort(404, 'Jobseeker profile not found');
+        }
+
+        $applications = $profile->applications()
+            ->with(['jobPosting.recruiter', 'jobPosting.category'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return Inertia::render('Jobs/JobseekerApplications', [
+            'auth' => ['user' => $user],
+            'applications' => $applications
+        ]);
+    }
 }

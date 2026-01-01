@@ -16,6 +16,14 @@ export default function Show({ auth, job, hasApplied }) {
         })
     }
 
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+        }).format(amount)
+    }
+
     return (
         <Layout user={auth.user}>
             <div className="py-12">
@@ -57,7 +65,7 @@ export default function Show({ auth, job, hasApplied }) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                                 <div className="bg-gray-50 p-4 rounded-lg">
                                     <h3 className="font-semibold text-gray-900 mb-2">Salary Range</h3>
-                                    <p className="text-gray-700">{job.salary_range}</p>
+                                    <p className="text-gray-700">{formatCurrency(job.salary_min)} - {formatCurrency(job.salary_max)}</p>
                                 </div>
                                 <div className="bg-gray-50 p-4 rounded-lg">
                                     <h3 className="font-semibold text-gray-900 mb-2">Job Type</h3>
