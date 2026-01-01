@@ -46,16 +46,6 @@ class JobPosting extends Model
         return $this->hasMany(Application::class);
     }
 
-    public function jobViews()
-    {
-        return $this->hasMany(JobView::class);
-    }
-
-    public function skills()
-    {
-        return $this->belongsToMany(JobSkill::class, 'job_posting_skills');
-    }
-
     // Scopes
     public function scopeActive($query)
     {

@@ -61,11 +61,6 @@ class JobController extends Controller
 
     public function show(JobPosting $job)
     {
-        // Record job view
-        $job->jobViews()->create([
-            'user_id' => auth()->id(),
-            'viewed_at' => now(),
-        ]);
 
         $job->load(['recruiter', 'category', 'skills']);
 

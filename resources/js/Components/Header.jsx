@@ -25,7 +25,7 @@ export default function Header({ user }) {
                         <Link href="/" className="text-gray-700 hover:text-blue-600">
                             Home
                         </Link>
-                        <Link href="#vacancy" className="text-gray-700 hover:text-blue-600">
+                        <Link href="/jobs" className="text-gray-700 hover:text-blue-600">
                             Vacancy
                         </Link>
                         <Link href="#faq" className="text-gray-700 hover:text-blue-600">
