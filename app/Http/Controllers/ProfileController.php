@@ -5,45 +5,58 @@ namespace App\Http\Controllers;
 use App\Models\RecruiterProfile;
 use App\Models\JobseekerProfile;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
     public function show()
     {
         $user = auth()->user();
-        
+
         if ($user->isRecruiter()) {
             $profile = $user->recruiterProfile;
-            return view('profiles.recruiter', compact('profile'));
+            return Inertia::render('Profile/Recruiter', [
+                'auth' => ['user' => $user],
+                'profile' => $profile
+            ]);
         } else {
             $profile = $user->jobseekerProfile;
-            return view('profiles.jobseeker', compact('profile'));
+            return Inertia::render('Profile/Jobseeker', [
+                'auth' => ['user' => $user],
+                'profile' => $profile
+            ]);
         }
     }
 
     public function edit()
     {
         $user = auth()->user();
-        
+
         if ($user->isRecruiter()) {
             $profile = $user->recruiterProfile ?? new RecruiterProfile();
-            return view('profiles.edit-recruiter', compact('profile'));
+            return Inertia::render('Profile/EditRecruiter', [
+                'auth' => ['user' => $user],
+                'profile' => $profile
+            ]);
         } else {
             $profile = $user->jobseekerProfile ?? new JobseekerProfile();
-            return view('profiles.edit-jobseeker', compact('profile'));
+            return Inertia::render('Profile/EditJobseeker', [
+                'auth' => ['user' => $user],
+                'profile' => $profile
+            ]);
         }
     }
 
     public function update(Request $request)
     {
         $user = auth()->user();
-        
+
         if ($user->isRecruiter()) {
             $this->updateRecruiterProfile($request, $user);
         } else {
             $this->updateJobseekerProfile($request, $user);
         }
-        
+
         return redirect()->route('profile.show')->with('success', 'Profile updated successfully');
     }
 
