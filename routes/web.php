@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JobController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -39,4 +40,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+// Job Routes
+Route::middleware('auth')->group(function () {
+    // Public job routes (for job seekers)
+    Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
+    Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+    Route::post('/jobs/{job}/apply', [JobController::class, 'apply'])->name('jobs.apply');
+
+    // Recruiter job management routes
+    Route::middleware('role:recruiter')->group(function () {
+        Route::get('/recruiter/jobs', [JobController::class, 'recruiterIndex'])->name('jobs.recruiter.index');
+        Route::get('/recruiter/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+        Route::post('/recruiter/jobs', [JobController::class, 'store'])->name('jobs.store');
+        Route::get('/recruiter/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
+        Route::put('/recruiter/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
+        Route::delete('/recruiter/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
+        Route::get('/recruiter/jobs/{job}/applications', [JobController::class, 'applications'])->name('jobs.applications');
+    });
 });

@@ -11,8 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job_postings', function (Blueprint $table) {
-            $table->id();
+        Schema::table('job_postings', function (Blueprint $table) {
             $table->foreignId('recruiter_id')->constrained('recruiter_profiles')->onDelete('cascade');
             $table->string('title');
             $table->text('description');
@@ -25,7 +24,6 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive', 'closed'])->default('active');
             $table->date('deadline')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -34,6 +32,23 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('job_postings');
+        Schema::table('job_postings', function (Blueprint $table) {
+            $table->dropForeign(['recruiter_id']);
+            $table->dropForeign(['category_id']);
+            $table->dropColumn([
+                'recruiter_id',
+                'title',
+                'description',
+                'requirements',
+                'location',
+                'salary_min',
+                'salary_max',
+                'job_type',
+                'experience_level',
+                'status',
+                'deadline',
+                'category_id'
+            ]);
+        });
     }
 };
