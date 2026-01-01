@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('jobseeker_id')->constrained('jobseeker_profiles')->onDelete('cascade');
             $table->foreignId('job_posting_id')->constrained('job_postings')->onDelete('cascade');
             $table->enum('status', ['pending', 'reviewed', 'shortlisted', 'rejected', 'hired'])->default('pending');
-            $table->timestamp('applied_at');
+            $table->timestamp('applied_at')->nullable();
         });
     }
 
