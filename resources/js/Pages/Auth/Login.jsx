@@ -54,7 +54,7 @@ export default function Login({ auth }) {
                             <div className="mt-16 space-y-8 pr-8">
                                 <button
                                     onClick={() => selectRole('jobseeker')}
-                                    className="group relative w-full flex justify-center py-3 px-4  border-transparent text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-blue-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border-2 border-[#1E87DB]"
+                                    className="group relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-blue-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border-2 border-[#1E87DB]"
                                 >
                                     Sign in as Job Seeker
                                 </button>
