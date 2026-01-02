@@ -1,10 +1,14 @@
+import { useState } from 'react'
+
 export default function SearchBar({
     placeholder = 'Search Here',
     onSubmit,
 }) {
+    const [query, setQuery] = useState('')
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        onSubmit?.()
+        onSubmit?.(query)
     }
 
     return (
@@ -13,6 +17,8 @@ export default function SearchBar({
                 {/* Input */}
                 <input
                 type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
                 placeholder={placeholder}
                 className="w-full py-4 pl-6 pr-20 text-gray-700 placeholder-gray-400 bg-white rounded-full shadow-md focus:outline-none"
                 />
@@ -44,4 +50,4 @@ export default function SearchBar({
             </div>
         </form>
     )
-    }
+}
