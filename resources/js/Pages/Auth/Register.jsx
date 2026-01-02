@@ -16,27 +16,27 @@ export default function Register({ auth }) {
     }
 
     return (
-        <div className="min-h-[120vh] flex items-center justify-center bg-white">
-            <div className='max-w-[1100px] w-full flex flex-row border border-gray-300 rounded-[20px] shadow-md'>
-                <div className="w-full bg-[url('/assets/images/auth/bg-auth.png')] bg-no-repeat bg-cover rounded-l-[20px] flex flex-col justify-between">
-                    <h2 className="mt-36 ml-16 text-left text-6xl font-extrabold text-white">
+        <div className="min-h-[120vh] flex items-center justify-center bg-white px-4">
+            <div className='w-full max-w-6xl flex flex-col lg:flex-row border border-gray-300 rounded-[20px] shadow-md'>
+                <div className="w-full lg:w-1/2 bg-[url('/assets/images/auth/bg-auth.png')] bg-no-repeat bg-cover rounded-t-[20px] lg:rounded-l-[20px] lg:rounded-t-none min-h-[300px] lg:min-h-[600px] flex flex-col justify-center items-center">
+                    <h2 className="text-center lg:text-left text-4xl lg:text-6xl font-extrabold text-white px-4">
                         Join us now!
                     </h2>
-                    <img src="/assets/images/auth/women-with-tab.png" alt="" width={1000} height={1000} className=""/>
+                    <img src="/assets/images/auth/women-with-tab.png" alt="" className="w-full max-w-sm lg:max-w-md mt-4 lg:mt-8"/>
                 </div>
-                <div className="w-full pl-8 pb-4">
-                    <h2 className="mt-10 text-left text-3xl font-extrabold text-gray-900">
+                <div className="w-full lg:w-1/2 p-4 lg:pl-8 lg:pb-4">
+                    <h2 className="mt-6 lg:mt-10 text-center lg:text-left text-2xl lg:text-3xl font-extrabold text-gray-900">
                         Create new Account
                     </h2>
-                    <p className='text-black text-[20px]'>
+                    <p className='text-black text-base lg:text-[20px] text-center lg:text-left'>
                         Already have an account? 
                         <span className='text-blue-600 hover:text-blue-500 cursor-pointer ml-2 hover:underline' onClick={() => window.location.href = '/login'}>
                             Sign in
                         </span>
                     </p>
-                    <form onSubmit={submit} className='space-y-4 pr-8'>
-                        <div className='mt-6'>
-                            <label htmlFor='name' className='text-lg text-gray-900 font-medium'>Name</label>
+                    <form onSubmit={submit} className='space-y-4 mt-6 lg:mt-8 pr-0 lg:pr-8'>
+                        <div>
+                            <label htmlFor='name' className='text-base lg:text-lg text-gray-900 font-medium'>Name</label>
                             <input
                                 id="name"
                                 name="name"
@@ -50,7 +50,7 @@ export default function Register({ auth }) {
                             {errors.name && <div className="text-red-500 text-sm mt-1">{errors.name}</div>}
                         </div>
                         <div>
-                            <label htmlFor='email' className='text-lg text-gray-900 font-medium'>Email</label>
+                            <label htmlFor='email' className='text-base lg:text-lg text-gray-900 font-medium'>Email</label>
                             <input
                                 id="email"
                                 name="email"
@@ -64,7 +64,7 @@ export default function Register({ auth }) {
                             {errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
                         </div>
                         <div>
-                            <label htmlFor='role' className='text-lg text-gray-900 font-medium'>Role</label>
+                            <label htmlFor='role' className='text-base lg:text-lg text-gray-900 font-medium'>Role</label>
                             <div>
                                 <select
                                     id="role"
@@ -80,7 +80,7 @@ export default function Register({ auth }) {
                             </div>
                         </div>
                         <div>
-                            <label htmlFor='password' className='text-lg text-gray-900 font-medium'>Password</label>
+                            <label htmlFor='password' className='text-base lg:text-lg text-gray-900 font-medium'>Password</label>
                             <div>
                                 <input
                                     id="password"
@@ -96,7 +96,7 @@ export default function Register({ auth }) {
                             </div>
                         </div>
                         <div>
-                            <label htmlFor='password_confirmation' className='text-lg text-gray-900 font-medium'>Confirm Password</label>
+                            <label htmlFor='password_confirmation' className='text-base lg:text-lg text-gray-900 font-medium'>Confirm Password</label>
                             <div>
                                 <input
                                     id="password_confirmation"
@@ -120,16 +120,16 @@ export default function Register({ auth }) {
                             </button>
                         </div>
                         <div>
-                            <p className='py-4 text-[#999999] text-left font-light'>
-                                By joining, you agree to the WorkSphere&ensp; 
+                            <p className='py-4 text-[#999999] text-center lg:text-left text-sm lg:text-base font-light'>
+                                By joining, you agree to the WorkSphere&nbsp; 
                                 <span className='text-blue-600 hover:text-blue-500 cursor-pointer hover:underline font-bold' onClick={() => window.location.href = '/'}>
                                     Terms of Service
                                 </span>  
-                                &ensp;and to occasionally receive emails from us. Please read our&ensp; 
+                                &nbsp;and to occasionally receive emails from us. Please read our&nbsp; 
                                 <span className='text-blue-600 hover:text-blue-500 cursor-pointer font-bold hover:underline' onClick={() => window.location.href = '/'}>
                                     Privacy Policy
                                 </span> 
-                                &ensp;to learn how we use your personal data.
+                                &nbsp;to learn how we use your personal data.
                             </p>
                         </div>
                     </form>

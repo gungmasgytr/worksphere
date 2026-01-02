@@ -32,26 +32,26 @@ export default function Login({ auth }) {
 
     if (!selectedRole) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
-                <div className="min-h-[120vh] flex items-center justify-center bg-white">
-                    <div className='max-w-[1100px] w-full flex flex-row border border-gray-300 rounded-[20px] shadow-md'>
-                        <div className="w-full bg-[url('/assets/images/auth/bg-auth.png')] bg-no-repeat bg-cover rounded-l-[20px]">
-                            <h2 className="mt-16 ml-16 text-left text-3xl font-extrabold text-white">
+            <div className="min-h-screen flex items-center justify-center bg-white px-4">
+                <div className="min-h-[120vh] flex items-center justify-center bg-white w-full max-w-6xl">
+                    <div className='w-full flex flex-col lg:flex-row border border-gray-300 rounded-[20px] shadow-md'>
+                        <div className="w-full lg:w-1/2 bg-[url('/assets/images/auth/bg-auth.png')] bg-no-repeat bg-cover rounded-t-[20px] lg:rounded-l-[20px] lg:rounded-t-none min-h-[300px] lg:min-h-[600px] flex flex-col justify-center items-center">
+                            <h2 className="text-center lg:text-left text-2xl lg:text-3xl font-extrabold text-white px-4">
                                 Join us now!
                             </h2>
-                            <img src="/assets/images/auth/women-with-tab.png" alt=""/>
+                            <img src="/assets/images/auth/women-with-tab.png" alt="" className="w-full max-w-sm lg:max-w-md mt-4 lg:mt-8"/>
                         </div>
-                        <div className="w-full pl-8 pb-4">
-                            <h2 className="mt-10 text-left text-3xl font-extrabold text-gray-900">
+                        <div className="w-full lg:w-1/2 p-4 lg:pl-8 lg:pb-4">
+                            <h2 className="mt-6 lg:mt-10 text-center lg:text-left text-2xl lg:text-3xl font-extrabold text-gray-900">
                                 Sign in to your account
                             </h2>
-                            <p className='text-black text-[20px]'>
-                                Don’t have an account? 
+                            <p className='text-black text-base lg:text-[20px] text-center lg:text-left'>
+                                Don't have an account? 
                                 <span className='text-blue-600 hover:text-blue-500 cursor-pointer ml-2 hover:underline' onClick={() => window.location.href = '/register'}>
                                     Join here
                                 </span>
                             </p>
-                            <div className="mt-16 space-y-8 pr-8">
+                            <div className="mt-8 lg:mt-16 space-y-6 lg:space-y-8 px-4 lg:px-0 lg:pr-8">
                                 <button
                                     onClick={() => selectRole('jobseeker')}
                                     className="group relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-blue-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border-2 border-[#1E87DB]"
@@ -65,17 +65,17 @@ export default function Login({ auth }) {
                                     Sign in as Recruiter
                                 </button>
                             </div>
-                            <div className='pt-40 pr-8 pl-4'>
-                                <p className='py-4 text-[#999999] text-left font-light'>
-                                    By joining, you agree to the WorkSphere&ensp; 
+                            <div className='pt-8 lg:pt-40 px-4 lg:px-0 lg:pr-8 lg:pl-4'>
+                                <p className='py-4 text-[#999999] text-center lg:text-left text-sm lg:text-base font-light'>
+                                    By joining, you agree to the WorkSphere&nbsp; 
                                     <span className='text-blue-600 hover:text-blue-500 cursor-pointer hover:underline font-bold' onClick={() => window.location.href = '/'}>
                                         Terms of Service
                                     </span>  
-                                    &ensp;and to occasionally receive emails from us. Please read our&ensp; 
+                                    &nbsp;and to occasionally receive emails from us. Please read our&nbsp; 
                                     <span className='text-blue-600 hover:text-blue-500 cursor-pointer font-bold hover:underline' onClick={() => window.location.href = '/'}>
                                         Privacy Policy
                                     </span> 
-                                    &ensp;to learn how we use your personal data.
+                                    &nbsp;to learn how we use your personal data.
                                 </p>
                             </div>
                         </div>
@@ -86,29 +86,37 @@ export default function Login({ auth }) {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-white">
-            <div className="min-h-[120vh] flex items-center justify-center bg-white">
-                    <div className='max-w-[1100px] w-full flex flex-row border border-gray-300 rounded-[20px] shadow-md'>
-                        <div className="w-full bg-[url('/assets/images/auth/bg-auth.png')] bg-no-repeat bg-cover rounded-l-[20px]">
-                            <h2 className="mt-16 ml-16 text-left text-3xl font-extrabold text-white">
+        <div className="min-h-screen flex items-center justify-center bg-white px-4">
+            <div className="min-h-[120vh] flex items-center justify-center bg-white w-full max-w-6xl">
+                    <div className='w-full flex flex-col lg:flex-row border border-gray-300 rounded-[20px] shadow-md'>
+                        <div className="w-full lg:w-1/2 bg-[url('/assets/images/auth/bg-auth.png')] bg-no-repeat bg-cover rounded-t-[20px] lg:rounded-l-[20px] lg:rounded-t-none min-h-[300px] lg:min-h-[600px] flex flex-col justify-center items-center">
+                            <h2 className="text-center lg:text-left text-2xl lg:text-3xl font-extrabold text-white px-4">
                                 Join us now!
                             </h2>
-                            <img src="/assets/images/auth/women-with-tab.png" alt="" width={1000} height={1000}/>
+                            <img src="/assets/images/auth/women-with-tab.png" alt="" className="w-full max-w-sm lg:max-w-md mt-4 lg:mt-8"/>
                         </div>
-                    <div className="max-w-[1100px] w-full space-y-8 px-5">
-                        <h2 className="mt-10 text-left text-3xl font-extrabold text-gray-900">
+                    <div className="w-full lg:w-1/2 space-y-6 lg:space-y-8 p-4 lg:px-5">
+                        <div className="flex items-center justify-between">
+                            <button
+                                onClick={backToRoleSelection}
+                                className="text-blue-600 hover:text-blue-500 text-sm lg:text-base"
+                            >
+                                ← Back to role selection
+                            </button>
+                        </div>
+                        <h2 className="text-center lg:text-left text-2xl lg:text-3xl font-extrabold text-gray-900">
                             Sign in as {selectedRole === 'jobseeker' ? 'Job Seeker' : 'Recruiter'}
                         </h2>
-                        <p className='text-black text-[20px]'>
-                            Don’t have an account? 
+                        <p className='text-black text-base lg:text-[20px] text-center lg:text-left'>
+                            Don't have an account? 
                             <span className='text-blue-600 hover:text-blue-500 cursor-pointer ml-2 hover:underline' onClick={() => window.location.href = '/register'}>
                                 Join here
                             </span>
                         </p>
-                        <form className="mt-8 space-y-6" onSubmit={submit}>
+                        <form className="mt-6 lg:mt-8 space-y-4 lg:space-y-6" onSubmit={submit}>
                             <div className="rounded-md shadow-sm space-y-4">
                                 <div>
-                                    <label className='text-lg text-gray-900 font-medium'>Email</label>
+                                    <label className='text-base lg:text-lg text-gray-900 font-medium'>Email</label>
                                     <input
                                         type="email"
                                         value={data.email}
@@ -119,7 +127,7 @@ export default function Login({ auth }) {
                                     {errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
                                 </div>
                                 <div>
-                                    <label className='text-lg text-gray-900 font-medium'>Password</label>
+                                    <label className='text-base lg:text-lg text-gray-900 font-medium'>Password</label>
                                     <input
                                         type="password"
                                         value={data.password}
