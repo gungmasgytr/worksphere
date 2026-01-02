@@ -33,6 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/jobseeker/dashboard', [DashboardController::class, 'jobseekerDashboard'])
         ->middleware('role:jobseeker')
         ->name('jobseeker.dashboard');
+
+    // Add create route here with same middleware pattern as dashboard
+    Route::get('/recruiter/jobs/create', [JobController::class, 'create'])
+        ->middleware('role:recruiter')
+        ->name('jobs.create');
 });
 
 // Profile Routes
@@ -57,7 +62,7 @@ Route::middleware('auth')->group(function () {
     // Recruiter job management routes
     Route::middleware('role:recruiter')->group(function () {
         Route::get('/recruiter/jobs', [JobController::class, 'recruiterIndex'])->name('jobs.recruiter.index');
-        Route::get('/recruiter/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+        Route::get('/recruiter/jobs/{job}', [JobController::class, 'recruiterShow'])->name('jobs.show');
         Route::post('/recruiter/jobs', [JobController::class, 'store'])->name('jobs.store');
         Route::get('/recruiter/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
         Route::put('/recruiter/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');

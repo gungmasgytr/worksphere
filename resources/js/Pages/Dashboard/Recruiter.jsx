@@ -93,7 +93,7 @@ export default function Recruiter({ auth, user, profile, stats, recentJobs, rece
                                     <div className="p-6">
                                         <div className="flex justify-between items-center mb-4">
                                             <h3 className="text-lg font-semibold">Recent Applications</h3>
-                                            <Link href="/recruiter/applications" className="text-blue-600 hover:text-blue-800">View All</Link>
+                                            
                                         </div>
                                         {recentApplications.length > 0 ? (
                                             <div className="space-y-4">
@@ -105,7 +105,7 @@ export default function Recruiter({ auth, user, profile, stats, recentJobs, rece
                                                                 <p className="text-sm text-gray-600">Applicant: {application.jobseeker?.user?.name}</p>
                                                                 <p className="text-sm text-gray-500">Status: {application.status} • Applied: {new Date(application.applied_at).toLocaleDateString()}</p>
                                                             </div>
-                                                            <Link href={`/recruiter/applications/${application.id}`} className="text-blue-600 hover:text-blue-800">Review</Link>
+                                                            <Link href={`/recruiter/jobseekers/${application.jobseeker_id}`} className="text-blue-600 hover:text-blue-800">Review</Link>
                                                         </div>
                                                     </div>
                                                 ))}

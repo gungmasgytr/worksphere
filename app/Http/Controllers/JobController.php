@@ -101,8 +101,6 @@ class JobController extends Controller
     // Recruiter routes
     public function recruiterIndex()
     {
-        $this->middleware('role:recruiter');
-
         $recruiterProfile = auth()->user()->recruiterProfile;
 
         if (!$recruiterProfile) {
@@ -122,8 +120,6 @@ class JobController extends Controller
 
     public function create()
     {
-        $this->middleware('role:recruiter');
-
         $categories = Category::all();
 
         return Inertia::render('Jobs/Create', [
@@ -134,8 +130,6 @@ class JobController extends Controller
 
     public function store(Request $request)
     {
-        $this->middleware('role:recruiter');
-
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -175,8 +169,6 @@ class JobController extends Controller
 
     public function edit(JobPosting $job)
     {
-        $this->middleware('role:recruiter');
-
         // Check if job belongs to current recruiter
         if ($job->recruiter_id !== auth()->user()->recruiterProfile?->id) {
             abort(403);
@@ -193,8 +185,6 @@ class JobController extends Controller
 
     public function update(Request $request, JobPosting $job)
     {
-        $this->middleware('role:recruiter');
-
         // Check if job belongs to current recruiter
         if ($job->recruiter_id !== auth()->user()->recruiterProfile?->id) {
             abort(403);
@@ -225,8 +215,6 @@ class JobController extends Controller
 
     public function destroy(JobPosting $job)
     {
-        $this->middleware('role:recruiter');
-
         // Check if job belongs to current recruiter
         if ($job->recruiter_id !== auth()->user()->recruiterProfile?->id) {
             abort(403);
@@ -237,16 +225,32 @@ class JobController extends Controller
         return redirect()->route('jobs.recruiter.index')->with('success', 'Job posting deleted successfully!');
     }
 
-    public function applications(JobPosting $job)
+    public function recruiterShow(JobPosting $job)
     {
-        $this->middleware('role:recruiter');
-
         // Check if job belongs to current recruiter
         if ($job->recruiter_id !== auth()->user()->recruiterProfile?->id) {
             abort(403);
         }
 
-        $applications = $job->applications()->with('jobseeker.user')->get();
+        $job->load(['recruiter', 'category', 'applications.jobseeker.user']);
+
+        return Inertia::render('Jobs/RecruiterShow', [
+            'auth' => ['user' => auth()->user()],
+            'job' => $job,
+            'applications' => $job->applications
+        ]);
+    }
+
+    public function applications(JobPosting $job)
+    {
+        // Check if job belongs to current recruiter
+        if ($job->recruiter_id !== auth()->user()->recruiterProfile?->id) {
+            abort(403);
+        }
+
+        $applications = $job->applications()
+            ->with(['jobseeker.user'])
+            ->get();
 
         return Inertia::render('Jobs/Applications', [
             'auth' => ['user' => auth()->user()],
@@ -257,8 +261,6 @@ class JobController extends Controller
 
     public function jobseekerApplications()
     {
-        $this->middleware('role:jobseeker');
-
         $user = auth()->user();
         $profile = $user->jobseekerProfile;
 
@@ -279,8 +281,6 @@ class JobController extends Controller
 
     public function updateApplicationStatus(Request $request, Application $application)
     {
-        $this->middleware('role:recruiter');
-
         // Check if application belongs to current recruiter's job
         if ($application->jobPosting->recruiter_id !== auth()->user()->recruiterProfile?->id) {
             abort(403);
@@ -299,8 +299,6 @@ class JobController extends Controller
 
     public function viewJobseekerProfile(JobseekerProfile $jobseeker)
     {
-        $this->middleware('role:recruiter');
-
         $jobseeker->load(['user', 'applications.jobPosting']);
 
         return Inertia::render('Jobs/JobseekerProfile', [
@@ -311,8 +309,6 @@ class JobController extends Controller
 
     public function contactCandidate(Request $request, Application $application)
     {
-        $this->middleware('role:recruiter');
-
         // Check if application belongs to current recruiter's job
         if ($application->jobPosting->recruiter_id !== auth()->user()->recruiterProfile?->id) {
             abort(403);
@@ -340,8 +336,6 @@ class JobController extends Controller
 
     public function toggleJobStatus(JobPosting $job)
     {
-        $this->middleware('role:recruiter');
-
         // Check if job belongs to current recruiter
         if ($job->recruiter_id !== auth()->user()->recruiterProfile?->id) {
             abort(403);

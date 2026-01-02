@@ -10,10 +10,10 @@ export default function JobseekerProfile({ auth, jobseeker }) {
                         <div className="p-6">
                             <div className="mb-6">
                                 <Link
-                                    href="/recruiter/jobs"
+                                    href="/recruiter/dashboard"
                                     className="text-blue-600 hover:text-blue-800 mb-4 inline-block"
                                 >
-                                    ← Back to Jobs
+                                    ← Back to Dashboard
                                 </Link>
                                 <h1 className="text-3xl font-bold text-gray-900">{jobseeker.user.name}'s Profile</h1>
                                 <p className="text-gray-600 mt-1">Jobseeker Profile Details</p>
