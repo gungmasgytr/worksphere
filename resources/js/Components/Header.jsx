@@ -3,10 +3,15 @@ import { useState } from 'react'
 
 export default function Header({ user }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const { post } = useForm()
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen)
+    }
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen)
     }
 
     const handleLogout = () => {
@@ -15,13 +20,14 @@ export default function Header({ user }) {
 
     return (
         <header className="bg-white shadow-sm border-b">
-            <div className="max-w-[1450px] mx-auto sm:px-3 lg:px-4">
+            <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
-                    <Link href="/" className="text-3xl font-bold text-[#404145]">
+                    <Link href="/" className="text-2xl lg:text-3xl font-bold text-[#404145]">
                         WorkSphere<span className='text-[#2196F3]'>.</span>
                     </Link>
                     
-                    <div className='items-center justify-center space-x-24 font-medium text-lg'>
+                    {/* Desktop Navigation */}
+                    <div className='hidden lg:flex items-center justify-center space-x-8 font-medium text-lg'>
                         <Link href="/" className="text-gray-700 hover:text-blue-600">
                             Home
                         </Link>
@@ -32,7 +38,19 @@ export default function Header({ user }) {
                             FAQ
                         </Link>
                     </div>
-                    <nav className="flex items-center space-x-8">
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={toggleMobileMenu}
+                        className="lg:hidden p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+                        </svg>
+                    </button>
+
+                    {/* Desktop Auth Section */}
+                    <nav className="hidden lg:flex items-center space-x-4">
                         {user ? (
                             <div className="relative">
                                 <button
@@ -68,19 +86,71 @@ export default function Header({ user }) {
                             </div>
                         ) : (
                             <>
-                                <Link href="/register" className="text-[#999999] hover:text-gray-800 font-semibold">
+                                <Link href="/register" className="text-[#999999] hover:text-gray-800 font-semibold text-sm lg:text-base">
                                     Become a recruiter
                                 </Link>
-                                <Link href="/login" className="text-[#999999] hover:text-gray-800 font-semibold">
+                                <Link href="/login" className="text-[#999999] hover:text-gray-800 font-semibold text-sm lg:text-base">
                                     Sign in
                                 </Link>
-                                <Link href="/register" className="bg-white text-[#2196F3] px-4 py-2 hover:bg-[#2196F3] border-2 border-[#2196F3] rounded-lg font-bold hover:text-white">
+                                <Link href="/register" className="bg-white text-[#2196F3] px-3 lg:px-4 py-2 hover:bg-[#2196F3] border-2 border-[#2196F3] rounded-lg font-bold hover:text-white text-sm lg:text-base">
                                     Join
                                 </Link>
                             </>
                         )}
                     </nav>
                 </div>
+
+                {/* Mobile Menu */}
+                {isMobileMenuOpen && (
+                    <div className="lg:hidden border-t border-gray-200 py-4">
+                        <div className="flex flex-col space-y-4">
+                            <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
+                                Home
+                            </Link>
+                            <Link href="/jobs" className="text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
+                                Vacancy
+                            </Link>
+                            <Link href="#faq" className="text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
+                                FAQ
+                            </Link>
+                            
+                            <div className="border-t border-gray-200 pt-4">
+                                {user ? (
+                                    <div className="space-y-2">
+                                        <Link
+                                            href={user.is_recruiter ? '/recruiter/dashboard' : '/jobseeker/dashboard'}
+                                            className="block text-gray-700 hover:text-blue-600 font-medium"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            Dashboard
+                                        </Link>
+                                        <button
+                                            onClick={() => {
+                                                handleLogout()
+                                                setIsMobileMenuOpen(false)
+                                            }}
+                                            className="block w-full text-left text-gray-700 hover:text-blue-600 font-medium"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2">
+                                        <Link href="/register" className="block text-[#999999] hover:text-gray-800 font-semibold" onClick={() => setIsMobileMenuOpen(false)}>
+                                            Become a recruiter
+                                        </Link>
+                                        <Link href="/login" className="block text-[#999999] hover:text-gray-800 font-semibold" onClick={() => setIsMobileMenuOpen(false)}>
+                                            Sign in
+                                        </Link>
+                                        <Link href="/register" className="block bg-[#2196F3] text-white px-4 py-2 rounded-lg font-bold text-center hover:bg-blue-700" onClick={() => setIsMobileMenuOpen(false)}>
+                                            Join
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </header>
     )
