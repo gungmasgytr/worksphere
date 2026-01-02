@@ -78,12 +78,6 @@ export default function Jobseeker({ auth, user, profile, stats, recentApplicatio
                                         >
                                             My Profile
                                         </Link>
-                                        <Link
-                                            href="/profile/edit"
-                                            className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 inline-block text-center"
-                                        >
-                                            Update Resume
-                                        </Link>
                                     </div>
                                 </div>
 
