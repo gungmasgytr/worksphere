@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\JobseekerProfile;
-use Illuminate\Support\Facades\Mail;
+use App\Mail\RecruiterMessageMail;
 use App\Models\JobPosting;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 
@@ -324,12 +325,12 @@ class JobController extends Controller
         $job = $application->jobPosting;
 
         // Send email to candidate
-        Mail::raw($request->message, function ($mail) use ($jobseeker, $recruiter, $request, $job) {
-            $mail->to($jobseeker->user->email)
-                 ->subject($request->subject)
-                 ->from($recruiter->email, $recruiter->name . ' - ' . $recruiter->recruiterProfile->company_name)
-                 ->replyTo($recruiter->email);
-        });
+        Mail::to($jobseeker->user->email)->send(new RecruiterMessageMail(
+            $request->subject,
+            $request->message,
+            $recruiter,
+            $job
+        ));
 
         return back()->with('success', 'Message sent to candidate successfully!');
     }
