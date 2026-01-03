@@ -9,10 +9,20 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobController;
 
 Route::get('/', function () {
+    $jobs = \App\Models\JobPosting::with('recruiter', 'category')
+        ->active()
+        ->latest()
+        ->take(6)
+        ->get();
+
+    $categories = \App\Models\Category::take(8)->get();
+
     return Inertia::render('Welcome', [
         'auth' => [
             'user' => auth()->user()
-        ]
+        ],
+        'jobs' => $jobs,
+        'categories' => $categories
     ]);
 });
 

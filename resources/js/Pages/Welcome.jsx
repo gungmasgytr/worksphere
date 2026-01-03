@@ -5,7 +5,7 @@ import JobCarousel from '../Components/JobCarousel'
 import JobCard from '../Components/JobCard'
 import CategoryGrid from '../Components/CategoryGird'
 import { Link, router } from '@inertiajs/react'
-export default function Welcome({ auth }) {
+export default function Welcome({ auth, jobs, categories }) {
     return (
         <Layout user={auth.user}>
             <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-[#2196F3] bg-[url('/assets/images/home/bg-image.png')] bg-no-repeat bg-cover px-4 lg:px-16 py-12">
@@ -77,14 +77,14 @@ export default function Welcome({ auth }) {
                 </div>
                 <section className="max-w-7xl mx-auto px-0 lg:px-6 py-8 lg:py-16">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[...Array(6)].map((_, i) => (
-                        <JobCard key={i} />
+                    {jobs.map((job) => (
+                        <JobCard key={job.id} job={job} />
                     ))}
                     </div>
                 </section>
             </div>
             <div className='bg-white '>
-                <CategoryGrid />
+                <CategoryGrid categories={categories} />
             </div>
             <div className='bg-white p-4 lg:p-8'>
                 <div className='flex flex-col items-center justify-center space-y-4 bg-[#1E87DB] rounded-2xl py-8 lg:py-16 px-4 lg:px-8'>
