@@ -1,5 +1,6 @@
 import Layout from '../../Components/Layout'
 import { Link, router } from '@inertiajs/react'
+import Swal from 'sweetalert2'
 
 export default function RecruiterIndex({ auth, jobs }) {
     const getStatusColor = (status) => {
@@ -23,20 +24,42 @@ export default function RecruiterIndex({ auth, jobs }) {
         })
     }
 
-    const handleToggleStatus = (jobId) => {
-        if (confirm('Are you sure you want to change this job\'s status?')) {
-            router.put(`/recruiter/jobs/${jobId}/toggle-status`, {}, {
-                preserveScroll: true,
-            })
-        }
+    const handleToggleStatus = (jobId, currentStatus) => {
+        const action = currentStatus === 'active' ? 'deactivate' : 'activate'
+        
+        Swal.fire({
+            title: `${action.charAt(0).toUpperCase() + action.slice(1)} Job?`,
+            text: `Are you sure you want to ${action} this job posting?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: `Yes, ${action} it!`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.put(`/recruiter/jobs/${jobId}/toggle-status`, {}, {
+                    preserveScroll: true,
+                })
+            }
+        })
     }
 
     const handleDelete = (jobId) => {
-        if (confirm('Are you sure you want to permanently delete this job posting? This action cannot be undone.')) {
-            router.delete(`/recruiter/jobs/${jobId}`, {
-                preserveScroll: true,
-            })
-        }
+        Swal.fire({
+            title: 'Delete Job Posting?',
+            text: 'This action cannot be undone. All applications will also be deleted.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(`/recruiter/jobs/${jobId}`, {
+                    preserveScroll: true,
+                })
+            }
+        })
     }
 
     return (
@@ -122,7 +145,7 @@ export default function RecruiterIndex({ auth, jobs }) {
                                                         View Applications ({job.application_count})
                                                     </Link>
                                                     <button
-                                                        onClick={() => handleToggleStatus(job.id)}
+                                                        onClick={() => handleToggleStatus(job.id, job.status)}
                                                         className={`px-4 py-2 rounded-md text-sm text-center text-white ${
                                                             job.status === 'active'
                                                                 ? 'bg-yellow-600 hover:bg-yellow-700'

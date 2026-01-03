@@ -99,6 +99,28 @@ class JobController extends Controller
         return redirect()->back()->with('success', 'Application submitted successfully!');
     }
 
+    public function testAlert()
+    {
+        $jobs = \App\Models\JobPosting::with('recruiter', 'category')
+            ->active()
+            ->latest()
+            ->take(6)
+            ->get();
+
+        $categories = \App\Models\Category::take(8)->get();
+
+        return Inertia::render('Welcome', [
+            'auth' => [
+                'user' => auth()->user()
+            ],
+            'jobs' => $jobs,
+            'categories' => $categories,
+            'flash' => [
+                'success' => 'Test SweetAlert berhasil!'
+            ]
+        ]);
+    }
+
     // Recruiter routes
     public function recruiterIndex()
     {

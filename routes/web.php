@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
     Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
     Route::post('/jobs/{job}/apply', [JobController::class, 'apply'])->name('jobs.apply');
+    Route::get('/test-alert', [JobController::class, 'testAlert'])->name('test.alert');
 
     // Jobseeker applications route
     Route::middleware('role:jobseeker')->group(function () {
