@@ -1,10 +1,27 @@
 import Layout from '../../Components/Layout'
 import { Link, useForm } from '@inertiajs/react'
+import Swal from 'sweetalert2'
 
 export default function Show({ auth, job, hasApplied }) {
     const { post, processing } = useForm()
 
     const handleApply = () => {
+        // Check if user has jobseeker profile
+        if (!auth.user.jobseeker_profile) {
+            Swal.fire({
+                title: 'Profile Incomplete!',
+                text: 'Please complete your jobseeker profile before applying for jobs.',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Complete Profile'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/profile/edit'
+                }
+            })
+            return
+        }
+        
         post(`/jobs/${job.id}/apply`)
     }
 
