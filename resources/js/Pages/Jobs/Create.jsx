@@ -1,5 +1,7 @@
 import Layout from '../../Components/Layout'
 import { useForm, Link } from '@inertiajs/react'
+import Swal from 'sweetalert2'
+import { useEffect } from 'react'
 
 export default function Create({ auth, categories }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -14,6 +16,23 @@ export default function Create({ auth, categories }) {
         category_id: '',
         deadline: '',
     })
+
+    useEffect(() => {
+        // Check if recruiter has complete profile
+        if (!auth.user.recruiter_profile) {
+            Swal.fire({
+                title: 'Profile Incomplete!',
+                text: 'Please complete your company profile before creating job postings.',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Complete Profile'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/profile/edit'
+                }
+            })
+        }
+    }, [])
 
     const jobTypes = [
         { value: 'full-time', label: 'Full Time' },
