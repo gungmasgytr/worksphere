@@ -1,5 +1,6 @@
 import Layout from '../../Components/Layout'
 import { Link } from '@inertiajs/react'
+import { showAlert } from '../../Utils/alert'
 
 export default function Jobseeker({ auth, user, profile, stats, recentApplications, jobRecommendations }) {
     const getStatusColor = (status) => {
@@ -69,6 +70,12 @@ export default function Jobseeker({ auth, user, profile, stats, recentApplicatio
                                         <Link
                                             href="/jobseeker/applications"
                                             className="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 inline-block text-center"
+                                            onClick={(e) => {
+                                                if (!profile) {
+                                                    e.preventDefault();
+                                                    showAlert.warning('Please complete your profile first before viewing applications.');
+                                                }
+                                            }}
                                         >
                                             My Applications
                                         </Link>
